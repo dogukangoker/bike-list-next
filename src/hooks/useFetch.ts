@@ -20,7 +20,6 @@ export const useFetchTTL = (url: string) => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      console.log(filterEmptyStringsFromObject(bikeQuery));
       const response = await fetch(
         url + "?" + qs.stringify(filterEmptyStringsFromObject(bikeQuery))
       );
