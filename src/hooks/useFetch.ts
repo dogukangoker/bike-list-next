@@ -9,7 +9,7 @@ export const useFetchTTL = (url: string) => {
     last_updated: null,
     ttl: 1,
     nextPage: false,
-    total_count: null,
+    total_count: 500,
   });
   const { bikeQuery } = useBike();
   const [error, setError] = useState(null);
