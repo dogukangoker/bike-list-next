@@ -37,7 +37,7 @@ export default function Page() {
           limit={10}
           setRefetchApi={setRefetchApi}
           total={data.total_count!}
-          disableFilters={error ? true : false}
+          disableFilters={(error ? true : false) || loading}
         />
       </div>
       <BikeDetailModal />

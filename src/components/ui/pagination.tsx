@@ -2,6 +2,7 @@
 
 import { useBike } from "@/hooks/useBike";
 import { useCreateQueryString } from "@/hooks/useCreateQueryString";
+import { useEffect } from "react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 type TablePaginationProps = {
@@ -21,6 +22,7 @@ export const TablePagination = ({
 }: TablePaginationProps) => {
   const { bikeQuery, setBikeQuery } = useBike();
   const { createQueryString } = useCreateQueryString({ setRefetchApi });
+  const MAX_PAGE_COUNT = Math.ceil(total / limit);
 
   const handleNextPage = () => {
     setBikeQuery({ ...bikeQuery, page: page + 1 });
@@ -30,6 +32,14 @@ export const TablePagination = ({
     setBikeQuery({ ...bikeQuery, page: page - 1 });
     createQueryString("page", String(page - 1));
   };
+
+  useEffect(() => {
+    if (page > MAX_PAGE_COUNT) {
+      alert("Invalid page number");
+      setBikeQuery({ ...bikeQuery, page: 1 });
+      createQueryString("page", "1");
+    }
+  }, [page]);
 
   return (
     <div className="flex flex-col items-center bg-gray-900 py-4">
@@ -52,15 +62,15 @@ export const TablePagination = ({
         <button
           onClick={handlePreviousPage}
           disabled={page === 1 || disableFilters}
-          className="flex items-center gap-2 justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50"
+          className="flex items-center gap-2 justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FaArrowLeftLong />
           Prev
         </button>
         <button
           onClick={handleNextPage}
-          disabled={Math.ceil(total / limit) === page || disableFilters}
-          className="flex items-center gap-2 justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50"
+          disabled={MAX_PAGE_COUNT === page || disableFilters}
+          className="flex items-center gap-2 justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
           <FaArrowRightLong />

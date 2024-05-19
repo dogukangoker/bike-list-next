@@ -1,9 +1,11 @@
 import { IBikeListProps, IBikeListQuery } from "@/shared/types";
+import { useSearchParams } from "next/navigation";
 import {
   Dispatch,
   ReactNode,
   SetStateAction,
   createContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -38,6 +40,18 @@ export const BikeProvider = ({ children }: IBikeProvider) => {
   const [selectedBike, setSelectedBike] = useState<IBikeListProps | null>(null);
   const [showBikeDetailModal, setShowBikeDetailModal] =
     useState<boolean>(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has("page")) {
+      setBikeQuery((prev: IBikeListQuery) => {
+        return {
+          ...prev,
+          page: Number(searchParams.get("page")),
+        };
+      });
+    }
+  }, [searchParams]);
 
   return (
     <BikeContext.Provider
