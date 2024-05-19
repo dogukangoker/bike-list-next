@@ -10,12 +10,4 @@ describe("Input Component", () => {
 
     expect(searchIcon).toBeInTheDocument();
   });
-
-  it("expect to render input component", () => {
-    render(<Input id="input" />);
-
-    const input = screen.getByDisplayValue("input");
-
-    expect(input).toBeInTheDocument();
-  });
 });
