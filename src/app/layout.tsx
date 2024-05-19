@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ContextProvider>
-          <Suspense>{children}</Suspense>
-        </ContextProvider>
+        <Suspense fallback={<div>Suspense</div>}>
+          <ContextProvider>{children}</ContextProvider>
+        </Suspense>
       </body>
     </html>
   );
